@@ -6,11 +6,23 @@ const router = express.Router();
 
 router.use(express.json());
 router.get("/me", async (req, res) => {
+    /*"""
+        Router Endpoint to get all information of user.
+        Input: 
+            User has to be logged in.
+
+    """*/
     const user = await User.findById(req.user._id).select('-password');
     res.send(user);
 });
 
 router.post("/", async (req, res) => {
+    /*"""
+        Router Endpoint to Register new User.
+        Input: 
+            User Object
+
+    """*/
     const { error } = userValidation(req.body);
     if (error) {
         res.status(400).send(error.details[0].message);
