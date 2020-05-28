@@ -1,0 +1,35 @@
+{
+  "name": "instabuy",
+  "version": "1.0.0",
+  "description": "InstaBuy E-Commerce Backend",
+  "main": "index.js",
+  "dependencies": {
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "joi": "^14.3.1",
+    "mongoose": "^5.9.16",
+    "nodemon": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MohamedWSalah/InstaBuy-E-Commerce-Backend.git"
+  },
+  "keywords": [
+    "Node.js",
+    "MongoDB",
+    "Express.js",
+    "InstaBuy",
+    "E-Commerce",
+    "Backend"
+  ],
+  "author": "MohamedWSalah , Karim-ElSharkawy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MohamedWSalah/InstaBuy-E-Commerce-Backend/issues"
+  },
+  "homepage": "https://github.com/MohamedWSalah/InstaBuy-E-Commerce-Backend#readme"
+}
