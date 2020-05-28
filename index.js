@@ -2,11 +2,13 @@ const Express = require('express');
 const E = Express();
 const mongoose = require('mongoose');
 const config = require('config');
+const items = require('./routes/items');
+
 
 E.use(Express.json());
 E.use(Express.urlencoded({ extended: true }));
 
-
+E.use('/item', items);
 
 //Database Connect
 mongoose.connect('mongodb://localhost/InstaBuy', { useNewUrlParser: true, useUnifiedTopology: true })
