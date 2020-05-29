@@ -7,3 +7,4 @@ require('./startup/validation')();
 require('./startup/routes')(express);
 require('./startup/db')();
 
+throw new Error("hello");

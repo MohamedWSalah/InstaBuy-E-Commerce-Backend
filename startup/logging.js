@@ -1,6 +1,11 @@
 const winston = require('winston');
 require('winston-mongodb');
 
+const { combine, timestamp, label, printf } = winston.format;
+
+const myFormat = printf(({ level, message, label, timestamp }) => {
+    return `[${timestamp}] ${label}=> ${level.toUpperCase()}: ${message}`;
+});
 
 module.exports = function () {
     winston.configure(
@@ -11,21 +16,37 @@ module.exports = function () {
         }
     );
 
-    winston.exceptions.handle(
-        new winston.transports.Console({colorize: true, prettyPrint: true}),
-        new winston.transports.File(
-        { filename: 'uncaughtException.log' }
-    ));
+    const logger = winston.createLogger({
+        level: 'error',
+        format: combine(
+            label({ label: '' }),
+            timestamp(),
+            myFormat
+        ),
+        transports: [
+            new winston.transports.File(
+                {
+                    filename: 'uncaughtException.log'
+                }
+            ),
+            new winston.transports.Console(
+                {
+                    colorize: true,
+                    prettyPrint: true
+                })
+
+        ]
+    });
 
     process.on('uncaughtException', (ex) => {
         console.log('! ~Uncaught Exception~ !');
-        winston.error(ex.message, ex);
+        logger.error(ex.message);
         process.exit(1);
     });
 
     process.on('unhandledRejection', (ex) => {
         console.log('! ~Unhandled Rejection~ !');
-        winston.error(ex.message, ex);
+        logger.error(ex.message);
         process.exit(1);
     });
 
