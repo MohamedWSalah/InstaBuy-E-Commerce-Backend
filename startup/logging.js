@@ -4,7 +4,7 @@ require('winston-mongodb');
 const { combine, timestamp, label, printf } = winston.format;
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
-    return `[${timestamp}] ${label}=> ${level.toUpperCase()}: ${message}`;
+    return `[\x1b[31m${timestamp}\x1b[0m] ${label}=> ${level.toUpperCase()}: ${message}`;
 });
 
 module.exports = function () {
