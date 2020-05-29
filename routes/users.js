@@ -9,7 +9,7 @@ router.get("/me", async (req, res) => {
     /*"""
         Router Endpoint to get all information of user.
         Input: 
-            User has to be logged in.
+            Get Logged User ID.
 
     """*/
 
@@ -41,7 +41,7 @@ router.post("/", async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email']));
+    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'billingInfo']));
 });
 
 router.post("/editInfo", async (req, res) => {

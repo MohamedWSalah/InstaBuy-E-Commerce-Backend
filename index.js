@@ -1,20 +1,9 @@
 const Express = require('express');
-const E = Express();
-const mongoose = require('mongoose');
-const config = require('config');
-const items = require('./routes/items');
+const express = Express();
 
+require('./startup/logging')();
+require('./startup/config')(express);
+require('./startup/validation')();
+require('./startup/routes')(express);
+require('./startup/db')();
 
-E.use(Express.json());
-E.use(Express.urlencoded({ extended: true }));
-
-E.use('/item', items);
-
-//Database Connect
-mongoose.connect('mongodb://localhost/InstaBuy', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to InstaBuy DB.'))
-    .catch(err => console.log(err.message));
-
-const port = process.env.PORT || config.get('port');
-E.listen(port);
-console.log(`Listening on port ${port}`);
