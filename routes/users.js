@@ -1,15 +1,21 @@
 const express = require('express');
-const { User, userValidation } = require('../models/usermodel');
+const { User, userValidation, passwordValidation } = require('../models/usermodel');
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 router.use(express.json());
-router.get("/me", async (req, res) => {
+
+router.get("/me", auth, async (req, res) => {
     /*"""
         Router Endpoint to get all information of user.
         Input: 
             Get Logged User ID.
+        Output: 
+             Current User Info.
+        Validation:
+            Auth Middleware (JWT Token)
 
     """*/
 
@@ -17,7 +23,7 @@ router.get("/me", async (req, res) => {
     res.send(user);
 });
 
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
     /*"""
         Router Endpoint to Register new User.
         Input: 
@@ -26,9 +32,7 @@ router.post("/", async (req, res) => {
     """*/
 
     const { error } = userValidation(req.body);
-    if (error) {
-        res.status(400).send(error.details[0].message);
-    }
+    if (error) return res.status(400).send(error.details[0].message);
 
     let user = await User.findOne({ email: req.body.email });
     if (user) return res.status(400).send('Account with same E-Mail Already Exists!');
@@ -41,10 +45,11 @@ router.post("/", async (req, res) => {
     await user.save();
 
     const token = user.generateAuthToken();
-    res.header('x-auth-token', token).send(_.pick(user, ['_id', 'name', 'email', 'billingInfo']));
+    res.header('x-auth-token', token).send(
+        _.pick(user, ['name', 'email']));
 });
 
-router.post("/editInfo", async (req, res) => {
+router.put("/editinfo", auth, async (req, res) => {
     /*"""
         Router Endpoint to edit any of the user's information.
         Input: 
@@ -52,17 +57,24 @@ router.post("/editInfo", async (req, res) => {
 
     """*/
     // require user
-    const { error } = userValidation(req.body);
-    if (error) {
-        res.status(400).send(error.details[0].message);
-    }
+    let user = await User.findById(req.user);
+    req.body.password = user.password;
 
-    let user = User.findById(req.body._id);
-    user = new User(_.pick(req.body, ['name', 'email', 'billingInfo']));
-    await user.save();
+    const { error } = userValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const eUser = await User.findByIdAndUpdate(req.user._id,
+        {
+            name: req.body.name,
+            email: req.body.email
+        },
+        { new: true });
+
+
+    res.send(eUser);
 });
 
-router.post("/editPassword", async (req, res) => {
+router.put("/editpassword", auth, async (req, res) => {
     /*"""
         Router Endpoint to edit the user's password specifically.
         Input: 
@@ -70,19 +82,30 @@ router.post("/editPassword", async (req, res) => {
 
     """*/
     // require user
-    const { error } = userValidation(req.body);
-    if (error) {
-        res.status(400).send(error.details[0].message);
-    }
+    let user = await User.findById(req.user);
 
-    let user = User.findById(req.body._id);
-    user = new User(_.pick(req.body, ['password']));
+    const { error } = passwordValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+
+    const validPassword = await bcrypt.compare(req.body.oldPassword, user.password);
+    if (!validPassword) return res.status(400).send('Invalid Password.');
+
+    console.log(validPassword);
 
     const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
+    const NewPassword = await bcrypt.hash(req.body.newPassword, salt);
+
+    const U = await User.findByIdAndUpdate(req.user._id,
+        {
+            password: NewPassword
+        },
+        { new: true });
 
 
-    await user.save();
+
+
+    await U.save();
+    res.send(U);
 });
 
 module.exports = router;

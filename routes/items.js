@@ -7,19 +7,17 @@ const { Item, itemValidation } = require('../models/itemmodel');
 
 //get itemdetails API
 router.get('/itemdetails', async (req, res) => {
-    try {
-        const item = await Item.findById(req.headers._id);
+        const item = await Item.findById(req.headers._id)
+        .catch(()=> res.send('Invalid Object id'));
+        if(!item) return res.send('ID not found');
+        
         res.send(item);
-    }
-    catch (ex) {
-        res.status(400).send('Item ID wasnt found');
-    }
-
 });
 
 router.post('/additem', async (req, res) => {
     const { error } = itemValidation(req.body);
     if (error) return res.send(error.details[0].message);
+ 
     /*
     check if the subcategoryId exists
     const subCatId = await Category.findById(req.body.subCategoryId);

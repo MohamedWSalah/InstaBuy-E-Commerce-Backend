@@ -15,6 +15,7 @@
     "mongoose": "^5.9.16",
     "nodemon": "^2.0.4",
     "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.4.2",
     "winston-mongodb": "^5.0.1"
   },
   "devDependencies": {},

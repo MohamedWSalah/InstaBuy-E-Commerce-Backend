@@ -1,0 +1,23 @@
+[[31m2020-05-30T12:51:21.112Z[0m] => ERROR: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+[[31m2020-05-30T12:52:38.834Z[0m] => ERROR: Converting circular structure to JSON
+    --> starting at object with constructor 'Socket'
+    |     property '_writableState' -> object with constructor 'WritableState'
+    |     property 'afterWriteTickInfo' -> object with constructor 'Object'
+    --- property 'stream' closes the circle
+[[31m2020-05-30T12:54:25.731Z[0m] => ERROR: connect ECONNREFUSED 127.0.0.1:27017
+[[31m2020-05-30T13:07:50.278Z[0m] => ERROR: Cast to ObjectId failed for value "5eaddbdcc50be8388cw974698" at path "_id" for model "Item"
+[[31m2020-05-30T13:12:04.509Z[0m] => ERROR: data and salt arguments required
+[[31m2020-05-30T13:12:22.521Z[0m] => ERROR: data and salt arguments required
+[[31m2020-05-30T13:12:48.627Z[0m] => ERROR: data and salt arguments required
+[[31m2020-05-30T13:12:53.262Z[0m] => ERROR: data and salt arguments required
+[[31m2020-05-30T13:13:07.482Z[0m] => ERROR: user.generateAuthToken is not a function
+[[31m2020-05-30T13:13:45.481Z[0m] => ERROR: user.generateAuthToken is not a function
+[[31m2020-05-30T13:14:27.970Z[0m] => ERROR: user.generateAuthToken is not a function
+[[31m2020-05-30T13:14:51.040Z[0m] => ERROR: user.generateAuthToken is not a function
+[[31m2020-05-30T13:17:20.405Z[0m] => ERROR: user.generateAuthToken is not a function
+[[31m2020-05-30T13:18:23.531Z[0m] => ERROR: user.generateAuthToken is not a function
+[[31m2020-05-30T13:18:41.748Z[0m] => ERROR: user.generateAuthToken is not a function

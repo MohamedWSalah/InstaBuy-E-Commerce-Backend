@@ -38,17 +38,15 @@ module.exports = function () {
         ]
     });
 
-    process.on('uncaughtException', (ex) => {
-        console.log('! ~Uncaught Exception~ !');
-        logger.error(ex.message);
-        process.exit(1);
-    });
+    // process.on('uncaughtException', (ex) => {
+    //     console.log('! ~Uncaught Exception~ !');
+    //     logger.error(ex.message);
+    // });
 
-    process.on('unhandledRejection', (ex) => {
-        console.log('! ~Unhandled Rejection~ !');
-        logger.error(ex.message);
-        process.exit(1);
-    });
+    // process.on('unhandledRejection', (ex) => {
+    //     console.log('! ~Unhandled Rejection~ !');
+    //     logger.error(ex.message);
+    // });
 
 
 }
