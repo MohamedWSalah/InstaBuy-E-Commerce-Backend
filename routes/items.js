@@ -5,6 +5,7 @@ const { Item, itemValidation } = require('../models/itemmodel');
 
 //get itemdetails API
 router.get('/itemdetails', async (req, res) => {
+    console.log(req.headers._id);
         const item = await Item.findById(req.headers._id)
         .catch(()=> res.send('Invalid Object id'));
         if(!item) return res.send('ID not found');
@@ -12,7 +13,7 @@ router.get('/itemdetails', async (req, res) => {
         res.send(item);
 });
 
-router.post('/additem', async (req, res) => {
+router.post('/add', async (req, res) => {
     const { error } = itemValidation(req.body);
     if (error) return res.send(error.details[0].message);
  
