@@ -20,7 +20,7 @@ function categoryValidation(cat)
     const schema = {
         name: Joi.string().min(2).max(50).required(),
         image: Joi.array().items(Joi.string()).required(),
-        parentId: Joi.array().items(Joi.string())
+        parentId: Joi.array().items(Joi.objectId())
     }
     return Joi.validate(cat,schema);
 }

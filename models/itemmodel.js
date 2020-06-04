@@ -23,7 +23,7 @@ function itemValidation(item) {
         price: Joi.number().required(),
         description: Joi.string(),
         quantity: Joi.number().required(),
-        subCategoryId: Joi.array().items(Joi.string()).required(),
+        subCategoryId: Joi.array().items(Joi.objectId()).required(),
         availableColors: Joi.array().items(Joi.string()).required(),
         discount: Joi.number()
     }
